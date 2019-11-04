@@ -1,7 +1,7 @@
 {
   "vendor": "vtex",
   "name": "challenge-sc-condition",
-  "version": "0.0.2-beta",
+  "version": "0.0.2",
   "title": "Challenge",
   "description": "",
   "builders": {
