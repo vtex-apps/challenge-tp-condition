@@ -1,5 +1,5 @@
 {
-  "challenge.salesChannelCondition": {
-    "component": "ChallengeSalesChannelCondition"
+  "challenge.tradePolicyCondition": {
+    "component": "ChallengeTradePolicyCondition"
   }
 }

@@ -26,7 +26,16 @@ interface Props extends InjectedWithSessionProps {
   defaultContentVisibility: ContentVisibility
 }
 
-const ChallengeSalesChannelCondition: FC<Props> = ({
+const useProfileAllowed = (skip: boolean) => {
+  const { loading, data, error } = useQuery(checkProfileAllowedQuery, {
+    ssr: false,
+    skip,
+  })
+
+  return !loading && data && !error ? !!data.checkProfileAllowed.allowed : null
+}
+
+const ChallengeTradePolicyCondition: FC<Props> = ({
   session,
   redirectPath = '/login',
   defaultContentVisibility = 'visible',
@@ -34,17 +43,9 @@ const ChallengeSalesChannelCondition: FC<Props> = ({
 }) => {
   const unauthorized =
     session && (session as SessionUnauthorized).type === 'Unauthorized'
-  const { loading, data, error } = useQuery(checkProfileAllowedQuery, {
-    ssr: false,
-    skip: unauthorized,
-  })
+  const profileAllowed = useProfileAllowed(unauthorized)
 
-  const isAuthenticated =
-    unauthorized === true
-      ? false
-      : !loading && data && !error
-      ? !!data.checkProfileAllowed.allowed
-      : null
+  const isAuthenticated = unauthorized === true ? false : profileAllowed
 
   useRedirectForbidden(redirectPath, isAuthenticated)
 
@@ -55,4 +56,4 @@ const ChallengeSalesChannelCondition: FC<Props> = ({
   return <Fragment>{children}</Fragment>
 }
 
-export default React.memo(withSession(ChallengeSalesChannelCondition))
+export default React.memo(withSession(ChallengeTradePolicyCondition))

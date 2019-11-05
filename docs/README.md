@@ -1,6 +1,6 @@
-# Challenge Sales Channel Condition
+# Challenge Trade Policy Condition
 
-> Challenge that checks if an user can access the current sales channel based on a specified condition rule.
+> Challenge that checks if an user can access the current Trade Policy based on a specified condition rule.
 
 ## Usage
 
@@ -11,11 +11,11 @@ Add this app to your theme dependencies:
 // ...
   "dependencies": {
     // ...
-    "vtex.challenge-sc-condition": "0.x"
+    "vtex.challenge-tp-condition": "0.x"
   }
 ```
 
-Add the block `challenge.salesChannelCondition` to all pages that you want to protect as a `parent` component.
+Add the block `challenge.tradePolicyCondition` to all pages that you want to protect as a `parent` component.
 
 Example:
 
@@ -30,16 +30,16 @@ Example:
      "newsletter"
    ],
 +   "parent": {
-+     "challenge": "challenge.salesChannelCondition"
++     "challenge": "challenge.tradePolicyCondition"
 +   }
  },
 ```
 
-This component will check if the logged in user has all conditions rules specified in the Sales Channel configuration. If not the user will be redirected to `/login`. If allowed, it will render the page.
+This component will check if the logged in user has all conditions rules specified in the Trade Policy configuration. If not the user will be redirected to `/login`. If allowed, it will render the page.
 
 ## API
 
-`challenge.salesChannelCondition` has some props that can be set.
+`challenge.tradePolicyCondition` has some props that can be set.
 
 | Prop name                | Default value | Possible values       | Description                                                                |
 | ------------------------ | ------------- | --------------------- | -------------------------------------------------------------------------- |
