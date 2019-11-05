@@ -1,12 +1,12 @@
-import React, { FC, useEffect, Fragment } from 'react'
-import { useRuntime, SessionUnauthorized } from 'vtex.render-runtime'
+import React, { FC, useEffect, Fragment, useState } from 'react'
+import { useRuntime, SessionUnauthorized, Session } from 'vtex.render-runtime'
 import { useQuery } from 'react-apollo'
 import checkProfileAllowedQuery from './graphql/checkProfileAllowed.graphql'
-import withSession, { InjectedWithSessionProps } from './components/withSession'
+import { getSession } from './modules/session'
 
 type ContentVisibility = 'visible' | 'hidden'
 
-const useRedirectForbidden = (
+const useRedirectIfForbidden = (
   redirectPath: string,
   isAuthenticated: boolean | null
 ) => {
@@ -21,7 +21,30 @@ const useRedirectForbidden = (
   }, [isAuthenticated, navigate, redirectPath])
 }
 
-interface Props extends InjectedWithSessionProps {
+const useSessionAuthorization = () => {
+  const [session, setSession] = useState<Session | SessionUnauthorized>()
+  const sessionPromise = getSession()
+
+  useEffect(() => {
+    if (!sessionPromise) {
+      return
+    }
+
+    sessionPromise.then(sessionResponse => {
+      setSession(sessionResponse.response)
+    })
+  }, [sessionPromise])
+
+  if (session === undefined) {
+    return null
+  }
+
+  return session && (session as SessionUnauthorized).type === 'Unauthorized'
+    ? false
+    : true
+}
+
+interface Props {
   redirectPath: string
   defaultContentVisibility: ContentVisibility
 }
@@ -36,18 +59,16 @@ const useProfileAllowed = (skip: boolean) => {
 }
 
 const ChallengeTradePolicyCondition: FC<Props> = ({
-  session,
   redirectPath = '/login',
   defaultContentVisibility = 'visible',
   children,
 }) => {
-  const unauthorized =
-    session && (session as SessionUnauthorized).type === 'Unauthorized'
-  const profileAllowed = useProfileAllowed(unauthorized)
+  const isAuthorized = useSessionAuthorization()
+  const profileAllowed = useProfileAllowed(!isAuthorized)
 
-  const isAuthenticated = unauthorized === true ? false : profileAllowed
+  const isAuthenticated = isAuthorized === false ? false : profileAllowed
 
-  useRedirectForbidden(redirectPath, isAuthenticated)
+  useRedirectIfForbidden(redirectPath, isAuthenticated)
 
   if (defaultContentVisibility === 'hidden' || isAuthenticated === false) {
     return null
@@ -56,4 +77,4 @@ const ChallengeTradePolicyCondition: FC<Props> = ({
   return <Fragment>{children}</Fragment>
 }
 
-export default React.memo(withSession(ChallengeTradePolicyCondition))
+export default React.memo(ChallengeTradePolicyCondition)
