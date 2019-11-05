@@ -15,7 +15,7 @@ Add this app to your theme dependencies:
   }
 ```
 
-Add the block `challenge.tradePolicyCondition` to all pages that you want to protect as a `parent` component.
+Add the block `challenge.trade-policy-condition` to all pages that you want to protect as a `parent` component.
 
 Example:
 
@@ -30,7 +30,7 @@ Example:
      "newsletter"
    ],
 +   "parent": {
-+     "challenge": "challenge.tradePolicyCondition"
++     "challenge": "challenge.trade-policy-condition"
 +   }
  },
 ```
@@ -39,7 +39,7 @@ This component will check if the logged in user has all conditions rules specifi
 
 ## API
 
-`challenge.tradePolicyCondition` has some props that can be set.
+`challenge.trade-policy-condition` has some props that can be set.
 
 | Prop name                | Default value | Possible values       | Description                                                                |
 | ------------------------ | ------------- | --------------------- | -------------------------------------------------------------------------- |
