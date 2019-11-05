@@ -1,58 +1,49 @@
-# VTEX React App Template
+# Challenge Trade Policy Condition
 
-Our guide repository to structure for react apps, that should be used as a template.
+> Challenge that checks if an user can access the current Trade Policy based on a specified condition rule.
 
-We use `yarn` as our default package manager, before coding make sure to run yarn on: `root` and `react` folders.
+## Usage
 
-## Some features:
+Add this app to your theme dependencies:
 
-### Tests
-
-For testing we use `@vtex/test-tools`, our own testing framework based on `react-testing-library`, the tests should be located on the `react/__tests__` folder. For references, visit our [repository](https://github.com/vtex/test-tools).
-
-### Hooks
-
-Husky hooks tha runs on every `pre-commit` and `pre-push`.
-
-### Intl Equalizer
-
-Tool for equalizing the messages located on the `messages` folder/builder. It's configured to use the **en.json** as the default file for comparison. For references, visit our [repository](https://github.com/vtex/intl-equalizer).
-
-### Lint + Formatting
-
-TS lint configured with Prettier and .Config.
-
-### Available Scripts
-
-```json
-{
-  "lint": "cd ./react && yarn lint",
-  "test": "cd ./react && yarn test",
-  "lint:locales": "intl-equalizer",
-  "locales:fix": "intl-equalizer --fix",
-  "verify": "yarn lint && yarn lint:locales && yarn test"
-}
+```js
+// manifest.json
+// ...
+  "dependencies": {
+    // ...
+    "vtex.challenge-tp-condition": "0.x"
+  }
 ```
 
-### Ci
+Add the block `challenge.trade-policy-condition` to all pages that you want to protect as a `parent` component.
 
-#### Install:
+Example:
 
-```yml
-install:
-  commands:
-    - echo Installing Packages...
-    - cd react
-    - npm install
-    - echo Packages installed!
+```diff
+ "store.home": {
+   "blocks": [
+     "shelf#home",
+     "flex-layout.row#deals",
+     "info-card#home",
+     "rich-text#question",
+     "rich-text#link",
+     "newsletter"
+   ],
++   "parent": {
++     "challenge": "challenge.trade-policy-condition"
++   }
+ },
 ```
 
-#### Pre-build:
+This component will check if the logged in user has all conditions rules specified in the Trade Policy configuration. If not the user will be redirected to `/login`. If allowed, it will render the page.
 
-```yml
-pre_build:
-  commands:
-    - echo Running tests...
-    - npm run verify
-    - echo Lint and tests finished!
-```
+## API
+
+`challenge.trade-policy-condition` has some props that can be set.
+
+| Prop name                | Default value | Possible values       | Description                                                                |
+| ------------------------ | ------------- | --------------------- | -------------------------------------------------------------------------- |
+| redirectPath             | `/login`      | (anything)            | Path which the user will be redirected if not allowed                      |
+| defaultContentVisibility | `visible`     | `visible` or `hidden` | Should the content be visible or hidden while checking the user condition? |
+
+> _Important:_ Using `hidden` will make all the page content be rendered on the client, that is, the page will not be Server Side Rendered (SSR). That is due to the fact that this check is user-based, making it impossible to cache.
