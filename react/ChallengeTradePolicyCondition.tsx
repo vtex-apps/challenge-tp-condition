@@ -39,7 +39,9 @@ const useSessionAuthorization = () => {
     return null
   }
 
-  return session && (session as SessionUnauthorized).type === 'Unauthorized'
+  return session &&
+    (session as SessionUnauthorized).type &&
+    (session as SessionUnauthorized).type.toLowerCase() === 'unauthorized'
     ? false
     : true
 }
