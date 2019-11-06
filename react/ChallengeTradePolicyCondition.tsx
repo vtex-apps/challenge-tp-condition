@@ -72,7 +72,10 @@ const ChallengeTradePolicyCondition: FC<Props> = ({
 
   useRedirectIfForbidden(redirectPath, isAuthenticated)
 
-  if (defaultContentVisibility === 'hidden' || isAuthenticated === false) {
+  if (
+    (defaultContentVisibility === 'hidden' && isAuthenticated === null) ||
+    isAuthenticated === false
+  ) {
     return null
   }
 
