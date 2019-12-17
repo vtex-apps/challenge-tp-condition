@@ -43,7 +43,8 @@ This component will check if the logged in user has all conditions rules specifi
 
 | Prop name                | Default value | Possible values       | Description                                                                |
 | ------------------------ | ------------- | --------------------- | -------------------------------------------------------------------------- |
-| redirectPath             | `/login`      | (anything)            | Path which the user will be redirected if not allowed                      |
+| redirectPath             | `/login`      | (anything)            | Path which the not logged in user will be redirected                       |
+| forbiddenRedirectPath    | `/login`      | (anything)            | Path which the logged in user will be redirected if not allowed            |
 | defaultContentVisibility | `visible`     | `visible` or `hidden` | Should the content be visible or hidden while checking the user condition? |
 
 > _Important:_ Using `hidden` will make all the page content be rendered on the client, that is, the page will not be Server Side Rendered (SSR). That is due to the fact that this check is user-based, making it impossible to cache.

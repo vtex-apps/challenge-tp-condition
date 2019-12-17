@@ -62,11 +62,16 @@ declare module 'vtex.render-runtime' {
     message: string
   }
 
+  interface SessionForbidden {
+    type: 'Forbidden'
+    message: string
+  }
+
   export interface RenderSession {
     sessionPromise: Promise<SessionPromise>
   }
 
   export interface SessionPromise {
-    response: Session | SessionUnauthorized
+    response: Session | SessionUnauthorized | SessionForbidden
   }
 }
