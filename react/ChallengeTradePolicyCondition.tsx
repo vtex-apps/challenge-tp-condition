@@ -95,7 +95,14 @@ const ChallengeTradePolicyCondition: FC<Props> = ({
   const sessionResponse = useSessionResponse()
   const isUnauthorized = useSessionUnauthorized(sessionResponse)
   const isForbidden = useSessionForbidden(sessionResponse)
-  const skipProfileCheck = Boolean(!isUnauthorized) || Boolean(!isForbidden)
+
+  const skipProfileCheck =
+    // Still checking for session
+    (isUnauthorized === null && isForbidden === null) ||
+    // We already know that it's not possible
+    isUnauthorized === true ||
+    isForbidden === true
+
   const profileAllowed = useProfileAllowed(skipProfileCheck)
 
   useRedirect(isUnauthorized === true || profileAllowed === false, redirectPath)
