@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
-- Cover new scenario of forbidden.
+- Cover new scenario of forbidden where the session object is not filled with unauthorized.
 
 ## [0.2.0] - 2019-12-18
 
