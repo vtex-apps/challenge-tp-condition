@@ -77,13 +77,15 @@ interface Props {
   defaultContentVisibility: ContentVisibility
 }
 
-const useProfileAllowed = (skip: boolean) => {
+type UserConditionType = 'authorized' | 'unauthorized' | 'forbidden'
+
+const useProfileAllowed = (skip: boolean): UserConditionType | null => {
   const { loading, data, error } = useQuery(checkProfileAllowedQuery, {
     ssr: false,
     skip,
   })
 
-  return !loading && data && !error ? !!data.checkProfileAllowed.allowed : null
+  return !loading && data && !error ? data.checkProfileAllowed.condition : null
 }
 
 const ChallengeTradePolicyCondition: FC<Props> = ({
@@ -103,10 +105,16 @@ const ChallengeTradePolicyCondition: FC<Props> = ({
     isUnauthorized === true ||
     isForbidden === true
 
-  const profileAllowed = useProfileAllowed(skipProfileCheck)
+  const profileCondition = useProfileAllowed(skipProfileCheck)
 
-  useRedirect(isUnauthorized === true || profileAllowed === false, redirectPath)
-  useRedirect(isForbidden === true, forbiddenRedirectPath)
+  useRedirect(
+    isUnauthorized === true || profileCondition === 'unauthorized',
+    redirectPath
+  )
+  useRedirect(
+    isForbidden === true || profileCondition === 'forbidden',
+    forbiddenRedirectPath
+  )
 
   const defaultHidden =
     defaultContentVisibility === 'hidden' &&
@@ -116,7 +124,8 @@ const ChallengeTradePolicyCondition: FC<Props> = ({
     defaultHidden ||
     isUnauthorized === true ||
     isForbidden === true ||
-    profileAllowed === false
+    profileCondition === 'unauthorized' ||
+    profileCondition === 'forbidden'
   ) {
     return null
   }
