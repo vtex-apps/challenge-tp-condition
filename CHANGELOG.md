@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+
+- Cover new scenario of forbidden.
+
 ## [0.2.0] - 2019-12-18
 
 ### Added
