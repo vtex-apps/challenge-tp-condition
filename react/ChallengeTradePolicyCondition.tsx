@@ -116,12 +116,8 @@ const ChallengeTradePolicyCondition: FC<Props> = ({
     forbiddenRedirectPath
   )
 
-  const defaultHidden =
-    defaultContentVisibility === 'hidden' &&
-    (isUnauthorized === null || isForbidden === null)
-
   if (
-    defaultHidden ||
+    defaultContentVisibility === 'hidden' ||
     isUnauthorized === true ||
     isForbidden === true ||
     profileCondition === 'unauthorized' ||
