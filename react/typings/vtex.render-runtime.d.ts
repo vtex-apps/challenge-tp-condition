@@ -51,8 +51,12 @@ declare module 'vtex.render-runtime' {
   interface Session {
     id: string
     namespaces: {
+      store: {
+        channel: string
+      }
       profile: {
         isAuthenticated: KeyValue
+        email: string
       }
     }
   }

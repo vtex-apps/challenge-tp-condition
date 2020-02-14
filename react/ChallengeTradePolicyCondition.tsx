@@ -5,8 +5,7 @@ import {
   Session,
   SessionForbidden,
 } from 'vtex.render-runtime'
-import { useQuery } from 'react-apollo'
-import checkProfileAllowedQuery from './graphql/checkProfileAllowed.graphql'
+
 import { getSession } from './modules/session'
 
 type ContentVisibility = 'visible' | 'hidden'
@@ -44,32 +43,15 @@ const useSessionResponse = () => {
   return session
 }
 
-const useSessionUnauthorized = (
-  sessionResponse: SessionResponse | undefined
-) => {
-  if (sessionResponse === undefined) {
-    return null
-  }
+const isSessionUnauthorized = (
+  session: SessionResponse | undefined
+): session is SessionUnauthorized =>
+  (session as SessionUnauthorized)?.type?.toLowerCase() === 'unauthorized'
 
-  return sessionResponse &&
-    (sessionResponse as SessionUnauthorized).type &&
-    (sessionResponse as SessionUnauthorized).type.toLowerCase() ===
-      'unauthorized'
-    ? true
-    : false
-}
-
-const useSessionForbidden = (sessionResponse: SessionResponse | undefined) => {
-  if (sessionResponse === undefined) {
-    return null
-  }
-
-  return sessionResponse &&
-    (sessionResponse as SessionForbidden).type &&
-    (sessionResponse as SessionForbidden).type.toLowerCase() === 'forbidden'
-    ? true
-    : false
-}
+const isSessionForbidden = (
+  session: SessionResponse | undefined
+): session is SessionForbidden =>
+  (session as SessionForbidden)?.type?.toLowerCase() === 'forbidden'
 
 interface Props {
   redirectPath: string
@@ -77,15 +59,22 @@ interface Props {
   defaultContentVisibility: ContentVisibility
 }
 
-type UserConditionType = 'authorized' | 'unauthorized' | 'forbidden'
+const isProfileAllowed = (sessionResponse: SessionResponse | undefined) => {
+  if (sessionResponse == null) {
+    return null
+  }
 
-const useProfileAllowed = (skip: boolean): UserConditionType | null => {
-  const { loading, data, error } = useQuery(checkProfileAllowedQuery, {
-    ssr: false,
-    skip,
-  })
+  const hasAccessToTradePolicy = (sessionResponse as Session).namespaces?.store
+    ?.channel
+  const isLoggedIn = (sessionResponse as Session).namespaces?.profile?.email
 
-  return !loading && data && !error ? data.checkProfileAllowed.condition : null
+  if (hasAccessToTradePolicy) {
+    return 'authorized'
+  }
+  if (isLoggedIn) {
+    return 'forbidden'
+  }
+  return 'unauthorized'
 }
 
 const ChallengeTradePolicyCondition: FC<Props> = ({
@@ -95,17 +84,9 @@ const ChallengeTradePolicyCondition: FC<Props> = ({
   children,
 }) => {
   const sessionResponse = useSessionResponse()
-  const isUnauthorized = useSessionUnauthorized(sessionResponse)
-  const isForbidden = useSessionForbidden(sessionResponse)
-
-  const skipProfileCheck =
-    // Still checking for session
-    (isUnauthorized === null && isForbidden === null) ||
-    // We already know that it's not possible
-    isUnauthorized === true ||
-    isForbidden === true
-
-  const profileCondition = useProfileAllowed(skipProfileCheck)
+  const isUnauthorized = isSessionUnauthorized(sessionResponse)
+  const isForbidden = isSessionForbidden(sessionResponse)
+  const profileCondition = isProfileAllowed(sessionResponse)
 
   useRedirect(
     isUnauthorized === true || profileCondition === 'unauthorized',
@@ -116,8 +97,11 @@ const ChallengeTradePolicyCondition: FC<Props> = ({
     forbiddenRedirectPath
   )
 
+  const defaultHidden =
+    defaultContentVisibility === 'hidden' && sessionResponse == null
+
   if (
-    defaultContentVisibility === 'hidden' ||
+    defaultHidden ||
     isUnauthorized === true ||
     isForbidden === true ||
     profileCondition === 'unauthorized' ||
