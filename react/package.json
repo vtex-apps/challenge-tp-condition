@@ -21,11 +21,14 @@
     "@types/react-intl": "^2.3.18",
     "@vtex/test-tools": "^0.3.2",
     "@vtex/tsconfig": "^0.2.0",
-    "eslint": "5.x",
-    "eslint-config-vtex-react": "^5.0.1",
-    "prettier": "^1.18.2",
+    "eslint": "^6.8.0",
+    "eslint-config-vtex-react": "^6.1.0",
+    "prettier": "^1.19.1",
     "prop-types": "^15.7.2",
-    "typescript": "3.7.3"
+    "typescript": "3.7.3",
+    "vtex.render-runtime": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.91.1/public/@types/vtex.render-runtime",
+    "vtex.store": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.store@2.87.1/public/@types/vtex.store",
+    "vtex.store-graphql": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.store-graphql@2.115.0/public/@types/vtex.store-graphql"
   },
   "version": "0.2.1"
 }

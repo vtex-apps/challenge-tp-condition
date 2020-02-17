@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.3.0-beta] - 2020-02-14
+### Fixed
+- Uses default content visibility as is
+- Runs vtex setup
+
 ## [0.2.1] - 2019-12-20
 
 ### Fixed

@@ -1,6 +1,0 @@
-query checkProfileAllowed {
-  checkProfileAllowed @context(provider: "vtex.store-graphql") {
-    allowed
-    condition
-  }
-}
