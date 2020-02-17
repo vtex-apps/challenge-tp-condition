@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.3.0] - 2020-02-17
+
 ## [0.3.0-beta] - 2020-02-14
 ### Fixed
 - Uses default content visibility as is
