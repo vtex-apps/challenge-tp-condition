@@ -40,8 +40,8 @@ This check is made according to the Condition Rule specified in the Trade Policy
 
 ```json
 "challenge.trade-policy-condition": {
-"props": {
-"redirectPath": "/login"
+  "props": {
+    "redirectPath": "/login"
 }
 },
 ```
