@@ -42,7 +42,7 @@ This check is made according to the Condition Rule specified in the Trade Policy
 "challenge.trade-policy-condition": {
   "props": {
     "redirectPath": "/login"
-}
+  }
 },
 ```
 
