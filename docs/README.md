@@ -39,7 +39,7 @@ This check is made according to the Condition Rule specified in the Trade Policy
 3. Declare the `challenge.trade-policy-condition`, using its props to define to where the store's users should be redirected according to each scenario. For example:
 
 ```json
-"challenge": {
+"challenge.trade-policy-condition": {
 "props": {
 "redirectPath": "/login"
 }
