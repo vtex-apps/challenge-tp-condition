@@ -4,6 +4,7 @@ import {
   SessionUnauthorized,
   Session,
   SessionForbidden,
+  canUseDOM,
 } from 'vtex.render-runtime'
 
 import { getSession } from './modules/session'
@@ -14,11 +15,18 @@ const useRedirect = (condition: boolean, path: string) => {
   const { navigate } = useRuntime()
 
   useEffect(() => {
-    if (condition) {
-      navigate({
-        to: path,
-      })
+    if (!condition) {
+      return
     }
+
+    const url = canUseDOM
+      ? window.location.pathname + window.location.hash
+      : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (global as any).__pathname__
+
+    navigate({
+      to: `${path}?returnUrl=${encodeURIComponent(url)}`,
+    })
   }, [condition, navigate, path])
 }
 

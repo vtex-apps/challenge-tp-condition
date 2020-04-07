@@ -7,15 +7,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- `returnUrl` query string when redirecting
+
 ## [0.3.1] - 2020-03-09
 
 ### Added
+
 - New step in the block's configuration
 
 ## [0.3.0] - 2020-02-17
 
 ## [0.3.0-beta] - 2020-02-14
+
 ### Fixed
+
 - Uses default content visibility as is
 - Runs vtex setup
 
