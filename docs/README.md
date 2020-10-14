@@ -58,6 +58,23 @@ Used in B2B environments, the Challenge block is a non-rendered block responsibl
  
 :warning: Using `hidden` as the `defaultContentVisibility` value result in the entire page's content being rendered on the client side (in a scenario in which the check concludes that the user has permission to access the store). The page will not be Server Side Rendered (SSR) due to the fact that this verification process is user-based, making it impossible to cache.
 
+## Troubleshooting
+
+1. The Product Page is returning a "Page not found" and not redirecting to the page defined.
+
+Add the challenge block to the `store.not-found#product` page:
+
+```json
+{
+  "store.not-found#product": {
+    "blocks": ["rich-text#not-found"],
+    "parent": {
+      "challenge": "challenge.trade-policy-condition"
+    }
+  }
+}
+```
+
 ## Customization
 
 No CSS Handles are available for the app customization.
