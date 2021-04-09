@@ -52,7 +52,7 @@ declare module 'vtex.render-runtime' {
     id: string
     namespaces: {
       store: {
-        channel: string
+        channel: KeyValue
       }
       profile: {
         isAuthenticated: KeyValue

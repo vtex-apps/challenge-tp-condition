@@ -6,7 +6,7 @@ import {
   SessionForbidden,
   canUseDOM,
 } from 'vtex.render-runtime'
-
+import { useRedirectLogout } from 'vtex.react-vtexid'
 import { getSession } from './modules/session'
 
 type ContentVisibility = 'visible' | 'hidden'
@@ -63,6 +63,7 @@ const isSessionForbidden = (
 
 interface Props {
   redirectPath: string
+  redirectUnauthorizedTradePolicy: string
   forbiddenRedirectPath: string
   defaultContentVisibility: ContentVisibility
 }
@@ -85,8 +86,23 @@ const isProfileAllowed = (sessionResponse: SessionResponse | undefined) => {
   return 'unauthorized'
 }
 
+const isTradePolicyAllowed = (sessionResponse: SessionResponse | undefined) => {
+  if (sessionResponse == null) {
+    return null
+  }
+
+  const hasAccessToTradePolicy = (sessionResponse as Session).namespaces?.store?.channel.value
+
+  if(hasAccessToTradePolicy === "1"){
+    return true
+  }
+
+  return false
+}
+
 const ChallengeTradePolicyCondition: FC<Props> = ({
   redirectPath = '/login',
+  redirectUnauthorizedTradePolicy = '/trade-test',
   forbiddenRedirectPath = redirectPath,
   defaultContentVisibility = 'visible',
   children,
@@ -95,14 +111,28 @@ const ChallengeTradePolicyCondition: FC<Props> = ({
   const isUnauthorized = isSessionUnauthorized(sessionResponse)
   const isForbidden = isSessionForbidden(sessionResponse)
   const profileCondition = isProfileAllowed(sessionResponse)
+  const tradePolicyCondition = isTradePolicyAllowed(sessionResponse)
+  const actionArgs = {returnUrl: redirectUnauthorizedTradePolicy}
+  const [logout] = useRedirectLogout(actionArgs)
 
   useRedirect(
     isUnauthorized === true || profileCondition === 'unauthorized',
     redirectPath
   )
+
+
   useRedirect(
     isForbidden === true || profileCondition === 'forbidden',
     forbiddenRedirectPath
+  )
+
+  if(tradePolicyCondition){
+    logout()
+  }
+
+  useRedirect(
+    tradePolicyCondition === true,
+    redirectUnauthorizedTradePolicy
   )
 
   const defaultHidden =
@@ -118,7 +148,11 @@ const ChallengeTradePolicyCondition: FC<Props> = ({
     return null
   }
 
-  return <Fragment>{children}</Fragment>
+  return (
+    <Fragment>
+      {children}
+    </Fragment>
+  )
 }
 
 export default React.memo(ChallengeTradePolicyCondition)
