@@ -102,7 +102,7 @@ const isTradePolicyAllowed = (sessionResponse: SessionResponse | undefined) => {
 
 const ChallengeTradePolicyCondition: FC<Props> = ({
   redirectPath = '/login',
-  redirectUnauthorizedTradePolicy = '/trade-test',
+  redirectUnauthorizedTradePolicy = '/account-not-found',
   forbiddenRedirectPath = redirectPath,
   defaultContentVisibility = 'visible',
   children,
@@ -113,7 +113,7 @@ const ChallengeTradePolicyCondition: FC<Props> = ({
   const profileCondition = isProfileAllowed(sessionResponse)
   const tradePolicyCondition = isTradePolicyAllowed(sessionResponse)
   const actionArgs = {returnUrl: redirectUnauthorizedTradePolicy}
-  const [logout] = useRedirectLogout(actionArgs)
+  const [logout] = useRedirectLogout({actionArgs})
 
   useRedirect(
     isUnauthorized === true || profileCondition === 'unauthorized',
@@ -126,14 +126,10 @@ const ChallengeTradePolicyCondition: FC<Props> = ({
     forbiddenRedirectPath
   )
 
+
   if(tradePolicyCondition){
     logout()
   }
-
-  useRedirect(
-    tradePolicyCondition === true,
-    redirectUnauthorizedTradePolicy
-  )
 
   const defaultHidden =
     defaultContentVisibility === 'hidden' && sessionResponse == null
@@ -142,6 +138,7 @@ const ChallengeTradePolicyCondition: FC<Props> = ({
     defaultHidden ||
     isUnauthorized === true ||
     isForbidden === true ||
+    tradePolicyCondition === true ||
     profileCondition === 'unauthorized' ||
     profileCondition === 'forbidden'
   ) {
