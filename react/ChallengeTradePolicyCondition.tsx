@@ -87,7 +87,7 @@ const isProfileAllowed = (sessionResponse: SessionResponse | undefined) => {
 }
 
 const isTradePolicyAllowed = (sessionResponse: SessionResponse | undefined) => {
-  if (sessionResponse == null) {
+  if (!sessionResponse) {
     return null
   }
 
