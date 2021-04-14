@@ -93,11 +93,7 @@ const isTradePolicyAllowed = (sessionResponse: SessionResponse | undefined) => {
 
   const hasAccessToTradePolicy = (sessionResponse as Session).namespaces?.store?.channel.value
 
-  if(hasAccessToTradePolicy === "1"){
-    return true
-  }
-
-  return false
+  return hasAccessToTradePolicy === "1"
 }
 
 const ChallengeTradePolicyCondition: FC<Props> = ({
