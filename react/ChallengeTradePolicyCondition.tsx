@@ -6,7 +6,7 @@ import {
   SessionForbidden,
   canUseDOM,
 } from 'vtex.render-runtime'
-
+import { useRedirectLogout } from 'vtex.react-vtexid'
 import { getSession } from './modules/session'
 
 type ContentVisibility = 'visible' | 'hidden'
@@ -63,6 +63,7 @@ const isSessionForbidden = (
 
 interface Props {
   redirectPath: string
+  redirectUnauthorizedTradePolicy: string
   forbiddenRedirectPath: string
   defaultContentVisibility: ContentVisibility
 }
@@ -85,8 +86,19 @@ const isProfileAllowed = (sessionResponse: SessionResponse | undefined) => {
   return 'unauthorized'
 }
 
+const isTradePolicyAllowed = (sessionResponse: SessionResponse | undefined) => {
+  if (!sessionResponse) {
+    return null
+  }
+
+  const hasAccessToTradePolicy = (sessionResponse as Session).namespaces?.store?.channel.value
+
+  return hasAccessToTradePolicy === "5"
+}
+
 const ChallengeTradePolicyCondition: FC<Props> = ({
   redirectPath = '/login',
+  redirectUnauthorizedTradePolicy = '/account-not-found',
   forbiddenRedirectPath = redirectPath,
   defaultContentVisibility = 'visible',
   children,
@@ -95,15 +107,28 @@ const ChallengeTradePolicyCondition: FC<Props> = ({
   const isUnauthorized = isSessionUnauthorized(sessionResponse)
   const isForbidden = isSessionForbidden(sessionResponse)
   const profileCondition = isProfileAllowed(sessionResponse)
+  const tradePolicyCondition = isTradePolicyAllowed(sessionResponse)
+  const actionArgs = {returnUrl: redirectUnauthorizedTradePolicy}
+  const [logout] = useRedirectLogout({actionArgs})
 
   useRedirect(
     isUnauthorized === true || profileCondition === 'unauthorized',
     redirectPath
   )
+
+
   useRedirect(
     isForbidden === true || profileCondition === 'forbidden',
     forbiddenRedirectPath
   )
+
+
+useEffect(() => {
+ if(tradePolicyCondition){
+    logout()
+  }
+}, [logout, tradePolicyCondition] )
+
 
   const defaultHidden =
     defaultContentVisibility === 'hidden' && sessionResponse == null
@@ -112,13 +137,18 @@ const ChallengeTradePolicyCondition: FC<Props> = ({
     defaultHidden ||
     isUnauthorized === true ||
     isForbidden === true ||
+    tradePolicyCondition === true ||
     profileCondition === 'unauthorized' ||
     profileCondition === 'forbidden'
   ) {
     return null
   }
 
-  return <Fragment>{children}</Fragment>
+  return (
+    <Fragment>
+      {children}
+    </Fragment>
+  )
 }
 
 export default React.memo(ChallengeTradePolicyCondition)
