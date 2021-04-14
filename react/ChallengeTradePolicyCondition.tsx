@@ -127,9 +127,12 @@ const ChallengeTradePolicyCondition: FC<Props> = ({
   )
 
 
-  if(tradePolicyCondition){
+useEffect(() => {
+ if(tradePolicyCondition){
     logout()
   }
+}, [logout, tradePolicyCondition] )
+
 
   const defaultHidden =
     defaultContentVisibility === 'hidden' && sessionResponse == null
