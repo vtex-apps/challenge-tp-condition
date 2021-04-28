@@ -95,12 +95,9 @@ const isTradePolicyAllowed = (sessionResponse: SessionResponse | undefined) => {
   const hasAccessToTradePolicy = (sessionResponse as Session).namespaces?.store?.channel.value
   const isLoggedIn = (sessionResponse as Session).namespaces?.profile?.email
 
-  if(isLoggedIn && hasAccessToTradePolicy === "5"){
-    return 'unauthorized'
-  } else if(isLoggedIn && hasAccessToTradePolicy !== "5"){
-    return 'authorized'
-  }
-  return 'forbidden'
+  if (!isLoggedIn) return 'forbidden'
+  const isAuthorized = hasAccessToTradePolicy !== "5"
+  return isAuthorized ? 'authorized' : 'unauthorized'
 }
 
 
