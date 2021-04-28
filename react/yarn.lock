@@ -5706,17 +5706,21 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vtex.render-runtime@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.91.1/public/@types/vtex.render-runtime":
-  version "8.91.1"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.91.1/public/@types/vtex.render-runtime#b4cbd46c65af0a360c30b865d8e5a900255ed4a2"
+"vtex.react-vtexid@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.react-vtexid@4.45.0/public/@types/vtex.react-vtexid":
+  version "4.45.0"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.react-vtexid@4.45.0/public/@types/vtex.react-vtexid#6670f75f4c487fd7853fc27fdd1dee02b732cd84"
 
-"vtex.store-graphql@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.store-graphql@2.115.0/public/@types/vtex.store-graphql":
-  version "2.115.0"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.store-graphql@2.115.0/public/@types/vtex.store-graphql#2fc413c072e625b24c677ef56ed0fba5ce5492f1"
+"vtex.render-runtime@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.128.4/public/@types/vtex.render-runtime":
+  version "8.128.4"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.128.4/public/@types/vtex.render-runtime#63491782d44910c4edc8528bc645c7c335c33128"
 
-"vtex.store@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.store@2.87.1/public/@types/vtex.store":
-  version "2.87.1"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.store@2.87.1/public/@types/vtex.store#928eed3a4a90fb201b4cca559b15f74db27fd1b4"
+"vtex.store-graphql@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.store-graphql@2.141.0/public/@types/vtex.store-graphql":
+  version "2.141.0"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.store-graphql@2.141.0/public/@types/vtex.store-graphql#fa80b190c8a32f48ecb9c0508bcf2a5dc1cd7c83"
+
+"vtex.store@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.store@2.116.0/public/@types/vtex.store":
+  version "2.116.0"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.store@2.116.0/public/@types/vtex.store#ed1aaedd39b07a8e99b5bd303e5fdc45cb815a1d"
 
 w3c-hr-time@^1.0.1:
   version "1.0.1"
