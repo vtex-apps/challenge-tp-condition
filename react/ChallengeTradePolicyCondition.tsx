@@ -64,6 +64,7 @@ const isSessionForbidden = (
 interface Props {
   redirectPath: string
   redirectUnauthorizedTradePolicy: string
+  redirectNotLoggedInTradePolicy: string
   forbiddenRedirectPath: string
   defaultContentVisibility: ContentVisibility
 }
@@ -92,13 +93,18 @@ const isTradePolicyAllowed = (sessionResponse: SessionResponse | undefined) => {
   }
 
   const hasAccessToTradePolicy = (sessionResponse as Session).namespaces?.store?.channel.value
+  const isLoggedIn = (sessionResponse as Session).namespaces?.profile?.email
 
-  return hasAccessToTradePolicy === "5"
+  if (!isLoggedIn) return 'forbidden'
+  const isAuthorized = hasAccessToTradePolicy !== "5"
+  return isAuthorized ? 'authorized' : 'unauthorized'
 }
+
 
 const ChallengeTradePolicyCondition: FC<Props> = ({
   redirectPath = '/login',
   redirectUnauthorizedTradePolicy = '/account-not-found',
+  redirectNotLoggedInTradePolicy = '/not-logged-in',
   forbiddenRedirectPath = redirectPath,
   defaultContentVisibility = 'visible',
   children,
@@ -116,15 +122,18 @@ const ChallengeTradePolicyCondition: FC<Props> = ({
     redirectPath
   )
 
-
   useRedirect(
     isForbidden === true || profileCondition === 'forbidden',
     forbiddenRedirectPath
   )
 
+  useRedirect(
+    tradePolicyCondition === 'forbidden',
+    redirectNotLoggedInTradePolicy
+  )
 
 useEffect(() => {
- if(tradePolicyCondition){
+  if(tradePolicyCondition === 'unauthorized'){
     logout()
   }
 }, [logout, tradePolicyCondition] )
@@ -137,7 +146,8 @@ useEffect(() => {
     defaultHidden ||
     isUnauthorized === true ||
     isForbidden === true ||
-    tradePolicyCondition === true ||
+    tradePolicyCondition === 'forbidden' ||
+    tradePolicyCondition === 'unauthorized' ||
     profileCondition === 'unauthorized' ||
     profileCondition === 'forbidden'
   ) {
