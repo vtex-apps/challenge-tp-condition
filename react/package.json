@@ -31,5 +31,5 @@
     "vtex.store": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.store@2.116.0/public/@types/vtex.store",
     "vtex.store-graphql": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.store-graphql@2.141.0/public/@types/vtex.store-graphql"
   },
-  "version": "0.5.0"
+  "version": "0.6.0"
 }
