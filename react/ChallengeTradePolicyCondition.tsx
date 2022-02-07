@@ -92,7 +92,7 @@ const isTradePolicyAllowed = (sessionResponse: SessionResponse | undefined) => {
     return null
   }
 
-  const hasAccessToTradePolicy = (sessionResponse as Session).namespaces?.store?.channel.value
+  const hasAccessToTradePolicy = (sessionResponse as Session).namespaces?.store?.channel?.value
   const isLoggedIn = (sessionResponse as Session).namespaces?.profile?.email
 
   if (!isLoggedIn) return 'forbidden'
