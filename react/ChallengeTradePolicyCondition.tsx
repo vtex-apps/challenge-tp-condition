@@ -117,29 +117,29 @@ const ChallengeTradePolicyCondition: FC<Props> = ({
   const actionArgs = {returnUrl: redirectUnauthorizedTradePolicy}
   const [logout] = useRedirectLogout({actionArgs})
 
-  console.log("TP CONDITION, props",redirectPath,redirectUnauthorizedTradePolicy,redirectNotLoggedInTradePolicy,defaultContentVisibility)
-  console.log("TP CONDITION",sessionResponse,isUnauthorized,isForbidden,profileCondition,tradePolicyCondition, actionArgs, logout )
+  console.log("TP CONDITION, props",{redirectPath,redirectUnauthorizedTradePolicy,redirectNotLoggedInTradePolicy,defaultContentVisibility, forbiddenRedirectPath})
+  console.log("TP CONDITION",{sessionResponse,isUnauthorized,isForbidden,profileCondition,tradePolicyCondition, actionArgs, logout })
 
-//   useRedirect(
-//     isUnauthorized === true || profileCondition === 'unauthorized',
-//     redirectPath
-//   )
+  useRedirect(
+    isUnauthorized === true || profileCondition === 'unauthorized',
+    redirectPath
+  )
 
-//   useRedirect(
-//     isForbidden === true || profileCondition === 'forbidden',
-//     forbiddenRedirectPath
-//   )
+  useRedirect(
+    isForbidden === true || profileCondition === 'forbidden',
+    forbiddenRedirectPath
+  )
 
-//   useRedirect(
-//     tradePolicyCondition === 'forbidden',
-//     redirectNotLoggedInTradePolicy
-//   )
+  useRedirect(
+    tradePolicyCondition === 'forbidden',
+    redirectNotLoggedInTradePolicy
+  )
 
-// useEffect(() => {
-//   if(tradePolicyCondition === 'unauthorized'){
-//     logout()
-//   }
-// }, [logout, tradePolicyCondition] )
+  useEffect(() => {
+    if(tradePolicyCondition === 'unauthorized'){
+      logout()
+    }
+  }, [logout, tradePolicyCondition] )
 
 
   const defaultHidden =
