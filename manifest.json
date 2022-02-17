@@ -1,7 +1,7 @@
 {
   "vendor": "vtex",
   "name": "challenge-tp-condition",
-  "version": "0.6.1-beta",
+  "version": "0.6.2-beta",
   "title": "Challenge",
   "description": "",
   "builders": {
