@@ -6,7 +6,7 @@ import {
   SessionForbidden,
   canUseDOM,
 } from 'vtex.render-runtime'
-import { useRedirectLogout } from 'vtex.react-vtexid'
+
 import { getSession } from './modules/session'
 
 type ContentVisibility = 'visible' | 'hidden'
@@ -63,8 +63,6 @@ const isSessionForbidden = (
 
 interface Props {
   redirectPath: string
-  redirectUnauthorizedTradePolicy: string
-  redirectNotLoggedInTradePolicy: string
   forbiddenRedirectPath: string
   defaultContentVisibility: ContentVisibility
 }
@@ -87,24 +85,8 @@ const isProfileAllowed = (sessionResponse: SessionResponse | undefined) => {
   return 'unauthorized'
 }
 
-const isTradePolicyAllowed = (sessionResponse: SessionResponse | undefined) => {
-  if (!sessionResponse) {
-    return null
-  }
-
-  const hasAccessToTradePolicy = (sessionResponse as Session).namespaces?.store?.channel.value
-  const isLoggedIn = (sessionResponse as Session).namespaces?.profile?.email
-
-  if (!isLoggedIn) return 'forbidden'
-  const isAuthorized = hasAccessToTradePolicy !== "5"
-  return isAuthorized ? 'authorized' : 'unauthorized'
-}
-
-
 const ChallengeTradePolicyCondition: FC<Props> = ({
   redirectPath = '/login',
-  redirectUnauthorizedTradePolicy = '/account-not-found',
-  redirectNotLoggedInTradePolicy = '/not-logged-in',
   forbiddenRedirectPath = redirectPath,
   defaultContentVisibility = 'visible',
   children,
@@ -113,31 +95,15 @@ const ChallengeTradePolicyCondition: FC<Props> = ({
   const isUnauthorized = isSessionUnauthorized(sessionResponse)
   const isForbidden = isSessionForbidden(sessionResponse)
   const profileCondition = isProfileAllowed(sessionResponse)
-  const tradePolicyCondition = isTradePolicyAllowed(sessionResponse)
-  const actionArgs = {returnUrl: redirectUnauthorizedTradePolicy}
-  const [logout] = useRedirectLogout({actionArgs})
 
   useRedirect(
     isUnauthorized === true || profileCondition === 'unauthorized',
     redirectPath
   )
-
   useRedirect(
     isForbidden === true || profileCondition === 'forbidden',
     forbiddenRedirectPath
   )
-
-  useRedirect(
-    tradePolicyCondition === 'forbidden',
-    redirectNotLoggedInTradePolicy
-  )
-
-useEffect(() => {
-  if(tradePolicyCondition === 'unauthorized'){
-    logout()
-  }
-}, [logout, tradePolicyCondition] )
-
 
   const defaultHidden =
     defaultContentVisibility === 'hidden' && sessionResponse == null
@@ -146,19 +112,13 @@ useEffect(() => {
     defaultHidden ||
     isUnauthorized === true ||
     isForbidden === true ||
-    tradePolicyCondition === 'forbidden' ||
-    tradePolicyCondition === 'unauthorized' ||
     profileCondition === 'unauthorized' ||
     profileCondition === 'forbidden'
   ) {
     return null
   }
 
-  return (
-    <Fragment>
-      {children}
-    </Fragment>
-  )
+  return <Fragment>{children}</Fragment>
 }
 
 export default React.memo(ChallengeTradePolicyCondition)

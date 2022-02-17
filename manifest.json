@@ -12,8 +12,7 @@
   },
   "dependencies": {
     "vtex.store": "2.x",
-    "vtex.store-graphql": "2.x",
-    "vtex.react-vtexid": "4.x"
+    "vtex.store-graphql": "2.x"
   },
   "registries": [
     "smartcheckout"
