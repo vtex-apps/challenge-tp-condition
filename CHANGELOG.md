@@ -7,13 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [0.6.0] - 2021-04-29
+## [0.6.0] - 2021-04-29 [DEPRECATED] 
 
 ### Added
 
 - Trade policy validation to user not logged in.
 
-## [0.5.0] - 2021-04-14
+## [0.5.0] - 2021-04-14 [DEPRECATED]
 
 ### Added
 

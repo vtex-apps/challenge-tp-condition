@@ -26,10 +26,9 @@
     "prettier": "^1.19.1",
     "prop-types": "^15.7.2",
     "typescript": "3.9.7",
-    "vtex.react-vtexid": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.react-vtexid@4.45.0/public/@types/vtex.react-vtexid",
-    "vtex.render-runtime": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.128.4/public/@types/vtex.render-runtime",
-    "vtex.store": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.store@2.116.0/public/@types/vtex.store",
-    "vtex.store-graphql": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.store-graphql@2.141.0/public/@types/vtex.store-graphql"
+    "vtex.render-runtime": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.91.1/public/@types/vtex.render-runtime",
+    "vtex.store": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.store@2.87.1/public/@types/vtex.store",
+    "vtex.store-graphql": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.store-graphql@2.115.0/public/@types/vtex.store-graphql"
   },
-  "version": "0.6.0"
+  "version": "0.4.1"
 }
