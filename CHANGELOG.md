@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+
+- Fallback to `window.location.search` if `window.location.hash` is not present
+
 ## [0.6.0] - 2021-04-29 [DEPRECATED] 
 
 ### Added

@@ -20,9 +20,10 @@ const useRedirect = (condition: boolean, path: string) => {
     }
 
     const url = canUseDOM
-      ? window.location.pathname + window.location.hash
+      ? window.location.pathname +
+      (window.location.hash || window.location.search)
       : // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (global as any).__pathname__
+      (global as any).__pathname__
 
     navigate({
       to: `${path}?returnUrl=${encodeURIComponent(url)}`,
